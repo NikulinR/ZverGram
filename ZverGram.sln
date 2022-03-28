@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32319.34
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "System", "System", "{F2E83F58-484A-427B-AFA8-01628DA80233}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{450BA5DE-F020-4484-A4E9-330D44ED9965}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{9A1656E4-0427-4C40-B2F8-8CF520B1EE36}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{AFB771F9-8839-426E-82EA-33C8C6A1C299}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{220EE242-C656-4FBF-9541-B1160D0C29B3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZverGram.Common", "Shared\ZverGram.Common\ZverGram.Common.csproj", "{FD6C4D85-2634-40D4-BB23-E457672F1A02}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZverGram.Api", "System\Api\ZverGram.Api\ZverGram.Api.csproj", "{06364F69-9410-4480-B41E-D06EA6E9DBFF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{5BA847F8-7CEB-49E0-9510-7435501CB4F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZverGram.Identity", "System\Identity\ZverGram.Identity\ZverGram.Identity.csproj", "{0E8255ED-C82B-4116-BDC5-BAC40274F96B}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{A7C9A02A-7EAA-4D76-BE90-7966AE0A64AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZverGram.Settings", "Shared\ZverGram.Settings\ZverGram.Settings.csproj", "{0E024A4E-A304-48ED-BF55-89FF58DAEE6C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD6C4D85-2634-40D4-BB23-E457672F1A02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD6C4D85-2634-40D4-BB23-E457672F1A02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD6C4D85-2634-40D4-BB23-E457672F1A02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD6C4D85-2634-40D4-BB23-E457672F1A02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06364F69-9410-4480-B41E-D06EA6E9DBFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06364F69-9410-4480-B41E-D06EA6E9DBFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06364F69-9410-4480-B41E-D06EA6E9DBFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06364F69-9410-4480-B41E-D06EA6E9DBFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E8255ED-C82B-4116-BDC5-BAC40274F96B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E8255ED-C82B-4116-BDC5-BAC40274F96B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E8255ED-C82B-4116-BDC5-BAC40274F96B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E8255ED-C82B-4116-BDC5-BAC40274F96B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7C9A02A-7EAA-4D76-BE90-7966AE0A64AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7C9A02A-7EAA-4D76-BE90-7966AE0A64AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7C9A02A-7EAA-4D76-BE90-7966AE0A64AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7C9A02A-7EAA-4D76-BE90-7966AE0A64AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E024A4E-A304-48ED-BF55-89FF58DAEE6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E024A4E-A304-48ED-BF55-89FF58DAEE6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E024A4E-A304-48ED-BF55-89FF58DAEE6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E024A4E-A304-48ED-BF55-89FF58DAEE6C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{220EE242-C656-4FBF-9541-B1160D0C29B3} = {F2E83F58-484A-427B-AFA8-01628DA80233}
+		{FD6C4D85-2634-40D4-BB23-E457672F1A02} = {9A1656E4-0427-4C40-B2F8-8CF520B1EE36}
+		{06364F69-9410-4480-B41E-D06EA6E9DBFF} = {220EE242-C656-4FBF-9541-B1160D0C29B3}
+		{5BA847F8-7CEB-49E0-9510-7435501CB4F6} = {F2E83F58-484A-427B-AFA8-01628DA80233}
+		{0E8255ED-C82B-4116-BDC5-BAC40274F96B} = {5BA847F8-7CEB-49E0-9510-7435501CB4F6}
+		{0E024A4E-A304-48ED-BF55-89FF58DAEE6C} = {9A1656E4-0427-4C40-B2F8-8CF520B1EE36}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {772D4D1F-07C8-48CA-8928-0C1EF1431E7F}
+	EndGlobalSection
+EndGlobal

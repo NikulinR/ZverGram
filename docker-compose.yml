@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  zvergram_sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+ 
+  zvergram_api:
+    image: ${DOCKER_REGISTRY-}zvergramapi
+    build:
+      context: .
+      dockerfile: System/Api/ZverGram.Api/Dockerfile
+
+  zvergram_identity:
+    image: ${DOCKER_REGISTRY-}zvergramidentity
+    build:
+        context: .
+        dockerfile: System/Identity/ZverGram.Identity/Dockerfile

@@ -1,0 +1,43 @@
+version: '3.4'
+
+services:
+  zvergram_sqlserver:
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Passw0rd
+      - MSSQL_PID=Express
+    ports:
+      - "21433:1433"
+    networks:
+      - shared-zvergram-net
+    volumes:      
+      - sqlserver-data:/var/opt/mssql
+
+  zvergram_api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5142:80" 
+    env_file:
+      - env.api
+    networks:
+      - shared-zvergram-net
+
+  zvergram_identity:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5167:80"
+    env_file:
+      - env.api
+    networks:
+      - shared-zvergram-net
+
+volumes:
+  sqlserver-data:
+  rabbitmq-data:
+
+networks:
+  shared-zvergram-net:
+    name: ZverGram
+    driver: bridge
