@@ -1,4 +1,6 @@
-﻿namespace ZverGram.Api.Configuration
+﻿using ZverGram.Api.Configuration.HealthChecks;
+
+namespace ZverGram.Api.Configuration
 {
     public static class HealthCheckConfiguration
     { 

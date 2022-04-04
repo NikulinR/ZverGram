@@ -9,6 +9,8 @@ services:
     build:
       context: .
       dockerfile: System/Api/ZverGram.Api/Dockerfile
+    depends_on:
+      - zvergram_sqlserver
 
   zvergram_identity:
     image: ${DOCKER_REGISTRY-}zvergramidentity
