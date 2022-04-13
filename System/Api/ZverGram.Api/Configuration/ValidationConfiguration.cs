@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using ZverGram.Common.Helpers;
 using ZverGram.Common.Responses;
+using ZverGram.Common.Validator;
 
 namespace ZverGram.Api.Configuration
 {
     public static class ValidationConfiguration
     {
-        public static IMvcBuilder AddValdator(this IMvcBuilder builder)
+        public static IMvcBuilder AddValidator(this IMvcBuilder builder)
         {
             builder.ConfigureApiBehaviorOptions(opt =>
             {
@@ -44,7 +45,7 @@ namespace ZverGram.Api.Configuration
             });
             ValidatorHelper.Register(builder.Services);
 
-            //builder.Services.AddSingleton(typeof(IModelValidator<>), typeof(ModelValidator<>));
+            builder.Services.AddSingleton(typeof(IModelValidator<>), typeof(ModelValidator<>));
 
             return builder;
         }

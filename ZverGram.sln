@@ -16,6 +16,7 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZverGram.Api", "System\Api\ZverGram.Api\ZverGram.Api.csproj", "{06364F69-9410-4480-B41E-D06EA6E9DBFF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{BF872B29-5DC0-4D28-BB30-015E455A3B8A} = {BF872B29-5DC0-4D28-BB30-015E455A3B8A}
+		{230E6937-5424-4483-B7F2-9E8C38472477} = {230E6937-5424-4483-B7F2-9E8C38472477}
 		{9BF5E84E-3E2A-4661-8D63-0990991FFFBB} = {9BF5E84E-3E2A-4661-8D63-0990991FFFBB}
 		{C5DA29B4-4608-45C1-B113-B7239C05311F} = {C5DA29B4-4608-45C1-B113-B7239C05311F}
 	EndProjectSection
@@ -23,6 +24,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{5BA847F8-7CEB-49E0-9510-7435501CB4F6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZverGram.Identity", "System\Identity\ZverGram.Identity\ZverGram.Identity.csproj", "{0E8255ED-C82B-4116-BDC5-BAC40274F96B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1F7C22FF-5DA7-4C81-A70E-8C7B65A56DB7} = {1F7C22FF-5DA7-4C81-A70E-8C7B65A56DB7}
+	EndProjectSection
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{A7C9A02A-7EAA-4D76-BE90-7966AE0A64AB}"
 EndProject
@@ -35,6 +39,17 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZverGram.Common", "Shared\ZverGram.Common\ZverGram.Common.csproj", "{1F7C22FF-5DA7-4C81-A70E-8C7B65A56DB7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZverGram.ExhibitionService", "Services\ZverGram.ExhibitionService\ZverGram.ExhibitionService.csproj", "{680EDA89-3529-4B31-9B9C-DEA1B30A8767}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZverGram.CategoryService", "Services\ZverGram.CategoryService\ZverGram.CategoryService.csproj", "{230E6937-5424-4483-B7F2-9E8C38472477}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C5DA29B4-4608-45C1-B113-B7239C05311F} = {C5DA29B4-4608-45C1-B113-B7239C05311F}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZverGram.CommentService", "Services\ZverGram.CommentService\ZverGram.CommentService.csproj", "{E60E261E-48F5-49FD-858D-0D4E89861370}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BF872B29-5DC0-4D28-BB30-015E455A3B8A} = {BF872B29-5DC0-4D28-BB30-015E455A3B8A}
+		{1F7C22FF-5DA7-4C81-A70E-8C7B65A56DB7} = {1F7C22FF-5DA7-4C81-A70E-8C7B65A56DB7}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,6 +89,14 @@ Global
 		{680EDA89-3529-4B31-9B9C-DEA1B30A8767}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{680EDA89-3529-4B31-9B9C-DEA1B30A8767}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{680EDA89-3529-4B31-9B9C-DEA1B30A8767}.Release|Any CPU.Build.0 = Release|Any CPU
+		{230E6937-5424-4483-B7F2-9E8C38472477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{230E6937-5424-4483-B7F2-9E8C38472477}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{230E6937-5424-4483-B7F2-9E8C38472477}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{230E6937-5424-4483-B7F2-9E8C38472477}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E60E261E-48F5-49FD-858D-0D4E89861370}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E60E261E-48F5-49FD-858D-0D4E89861370}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E60E261E-48F5-49FD-858D-0D4E89861370}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E60E261E-48F5-49FD-858D-0D4E89861370}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +111,8 @@ Global
 		{C5DA29B4-4608-45C1-B113-B7239C05311F} = {450BA5DE-F020-4484-A4E9-330D44ED9965}
 		{1F7C22FF-5DA7-4C81-A70E-8C7B65A56DB7} = {9A1656E4-0427-4C40-B2F8-8CF520B1EE36}
 		{680EDA89-3529-4B31-9B9C-DEA1B30A8767} = {AFB771F9-8839-426E-82EA-33C8C6A1C299}
+		{230E6937-5424-4483-B7F2-9E8C38472477} = {AFB771F9-8839-426E-82EA-33C8C6A1C299}
+		{E60E261E-48F5-49FD-858D-0D4E89861370} = {AFB771F9-8839-426E-82EA-33C8C6A1C299}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {772D4D1F-07C8-48CA-8928-0C1EF1431E7F}

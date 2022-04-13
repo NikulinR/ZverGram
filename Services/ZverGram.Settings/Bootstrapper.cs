@@ -11,6 +11,7 @@ namespace ZverGram.Settings
             services.AddSingleton<IIdentitySettings, IdentitySettings>();
             services.AddSingleton<IGeneralSettings, GeneralSettings>();
             services.AddSingleton<IDbSettings, DbSettings>();
+            services.AddSingleton<IIS4Settings, IS4Settings>();
             return services;
         }
     }

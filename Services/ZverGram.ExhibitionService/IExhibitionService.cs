@@ -9,10 +9,10 @@ namespace ZverGram.ExhibitionService
 {
     public interface IExhibitionService
     {
-        Task<IEnumerable<ExhibitionModel>> GetExhibitions();
+        Task<IEnumerable<ExhibitionModel>> GetExhibitions(int offset = 0, int limit = 100);
         Task<ExhibitionModel> GetExhibition(int id);
         Task<ExhibitionModel> AddExhibition(AddExhibitionModel model);
         Task UpdateExhibition(int id, UpdateExhibitionModel model);
-
+        Task DeleteExhibition(int id);
     }
 }

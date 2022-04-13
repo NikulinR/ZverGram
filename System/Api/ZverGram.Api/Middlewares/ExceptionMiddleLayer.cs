@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using FluentValidation;
+using System.Text.Json;
+using ZverGram.Common.Exceptions;
 using ZverGram.Common.Extentions;
 using ZverGram.Common.Responses;
 
@@ -20,10 +22,18 @@ namespace ZverGram.Api.Middlewares
             {
                 await next.Invoke(context);
             }
-            catch (Exception ex)
+            catch (dbException ex)
             {
                 response = ex.ToErrorResonse();
             }
+            catch (ValidationException ex)
+            {
+                response = ex.ToErrorResonse();
+            }
+            catch (Exception ex)
+            {
+                response = ex.ToErrorResonse();
+            }            
             finally
             {
                 if(response != null)

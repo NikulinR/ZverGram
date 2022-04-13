@@ -1,15 +1,30 @@
+using ZverGram.Identity;
+using ZverGram.Identity.Configuration;
+using ZverGram.Settings;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// Configure application
 
-builder.Services.AddControllers();
+var settings = new IS4Settings(new SettingsSource());
 
+// Configure services
+var services = builder.Services;
+
+services.AddAppCors();
+services.AddAppDbContext(settings.Db);
+services.AddHttpContextAccessor();
+services.AddAppServices();
+services.AddIS4();
+
+// Start application
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-
-app.UseAuthorization();
-
-app.MapControllers();
+app.UseAppCors();
+app.UseStaticFiles();
+app.UseRouting();
+app.UseAppDbContext();
+app.UseIS4();
 
 app.Run();

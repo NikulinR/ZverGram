@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using ZverGram.Db.Entities;
 
 namespace ZverGram.ExhibitionService.Models
 {
@@ -22,11 +23,11 @@ namespace ZverGram.ExhibitionService.Models
         }
     }
 
-    //public class UpdateExhibitionRequestProfile : Profile
-    //{
-    //    public UpdateExhibitionRequestProfile()
-    //    {
-    //        CreateMap<UpdateExhibitionRequest, UpdateExhibitionModel>();
-    //    }
-    //}
+    public class UpdateExhibitionRequestProfile : Profile
+    {
+        public UpdateExhibitionRequestProfile()
+        {
+            CreateMap<UpdateExhibitionModel, Exhibition>();
+        }
+    }
 }

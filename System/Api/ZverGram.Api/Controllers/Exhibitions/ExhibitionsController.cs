@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using ZverGram.Common.Security;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
 using ZverGram.Api.Controllers.Exhibitions.Models;
 using ZverGram.ExhibitionService;
 using ZverGram.ExhibitionService.Models;
@@ -42,6 +44,7 @@ namespace ZverGram.Api.Controllers.Exhibitions
         }
 
         [HttpPost("")]
+        [Authorize(AppScopes.ExhibitionsWrite)]
         public async Task<ExhibitionResponse> AddExhibition([FromBody] AddExhibitionRequest request)
         {
             var model = mapper.Map<AddExhibitionModel>(request);
@@ -51,11 +54,23 @@ namespace ZverGram.Api.Controllers.Exhibitions
             return response;
         }
 
+        
         [HttpPut("{id}")]
+        [Authorize(AppScopes.ExhibitionsWrite)]
         public async Task<IActionResult> UpdateExhibition([FromRoute] int id, [FromBody] UpdateExhibitionRequest request)
         {
             var model = mapper.Map<UpdateExhibitionModel>(request);
             await exhibitionService.UpdateExhibition(id, model);
+
+            return Ok();
+        }
+
+        
+        [HttpDelete("{id}")]
+        [Authorize(AppScopes.ExhibitionsWrite)]
+        public async Task<IActionResult> DeleteExhibition([FromRoute] int id)
+        {
+            await exhibitionService.DeleteExhibition(id);
 
             return Ok();
         }

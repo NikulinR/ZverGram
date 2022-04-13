@@ -7,7 +7,7 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
-
+using ZverGram.Common.Security;
 
 public static class SwaggerConfiguration
 {
@@ -16,6 +16,9 @@ public static class SwaggerConfiguration
 
     public static IServiceCollection AddAppSwagger(this IServiceCollection services, IApiSettings settings)
     {
+        if (!settings.GeneralSettings.SwaggerVisible)
+            return services;
+
         services.AddOptions<SwaggerGenOptions>()
             .Configure<IApiVersionDescriptionProvider>((options, provider) =>
             {
@@ -54,7 +57,31 @@ public static class SwaggerConfiguration
                 {
                     Password = new OpenApiOAuthFlow
                     {
-                        TokenUrl = new Uri($"{settings.IdentityServer.Url}/connect/token")
+                        TokenUrl = new Uri($"http://localhost:5167/connect/token"),                        
+                        //TokenUrl = new Uri($"{settings.IdentityServer.Url}/connect/token"),
+                        Scopes = new Dictionary<string, string>
+                        {
+                            {AppScopes.ExhibitionsRead, "ExhibitionsRead"},
+                            {AppScopes.ExhibitionsWrite, "ExhibitionsWrite"},
+                            {AppScopes.CommentsRead, "CommentsRead"},
+                            {AppScopes.CommentsWrite, "CommentsWrite"},
+                            {AppScopes.CategoriesRead, "CategoriesRead"},
+                            {AppScopes.CategoriesWrite, "CategoriesWrite"}
+                        }
+                    },
+                    ClientCredentials = new OpenApiOAuthFlow
+                    {
+                        TokenUrl = new Uri($"http://localhost:5167/connect/token"),
+                        //TokenUrl = new Uri($"{settings.IdentityServer.Url}/connect/token"),
+                        Scopes = new Dictionary<string, string>
+                        {
+                            {AppScopes.ExhibitionsRead, "ExhibitionsRead"},
+                            {AppScopes.ExhibitionsWrite, "ExhibitionsWrite"},
+                            {AppScopes.CommentsRead, "CommentsRead"},
+                            {AppScopes.CommentsWrite, "CommentsWrite"},
+                            {AppScopes.CategoriesRead, "CategoriesRead"},
+                            {AppScopes.CategoriesWrite, "CategoriesWrite"}
+                        }
                     }
                 }
             });
@@ -84,6 +111,9 @@ public static class SwaggerConfiguration
     {
         var settings = app.Services.GetService<IApiSettings>();
         var provider = app.Services.GetService<IApiVersionDescriptionProvider>();
+
+        if (!settings.GeneralSettings.SwaggerVisible)
+            return;
 
         app.UseSwagger(options =>
         {

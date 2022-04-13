@@ -1,4 +1,6 @@
-﻿using ZverGram.ExhibitionService;
+﻿using ZverGram.CategoryService;
+using ZverGram.CommentService;
+using ZverGram.ExhibitionService;
 using ZverGram.Settings;
 
 namespace ZverGram.Api
@@ -9,7 +11,9 @@ namespace ZverGram.Api
         {
             services
                 .AddSettings()
-                .AddExhibitionService();
+                .AddExhibitionService()
+                .AddCategoryService()
+                .AddCommentService();
 
         }
     }

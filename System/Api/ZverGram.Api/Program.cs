@@ -2,6 +2,8 @@
 using Serilog;
 using ZverGram.Api;
 using ZverGram.Api.Configuration;
+using ZverGram.API.Configuration;
+using ZverGram.Identity.Configuration;
 using ZverGram.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,26 +20,34 @@ var services = builder.Services;
 
 services
     .AddHttpContextAccessor()
-    .AddControllers().AddValdator();
-services
+    .AddAppDbContext(settings)
     .AddHealthCheck()
-    .AddAppDbContext(settings);
-services
     .AddAppVersions()
     .AddAppSwagger(settings)
+    .AddAppCors()
     .AddAppServices();
-services.AddAutoMappers();
+services
+    .AddAppAuth(settings)
+    .AddControllers()
+    .AddValidator();
+services
+    .AddAutoMappers();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.UseStaticFiles().UseRouting();
-app.UseHealthCheck()
-    .UseSerilogRequestLogging()
-    .UseAuthorization();
-app.UseAppSwagger();
-app.UseAppDbContext();
-app.MapControllers();
+
 app.UseMiddleware();
+app.UseStaticFiles().UseRouting();
+app.UseAppCors();
+app.UseHealthCheck()
+   .UseSerilogRequestLogging();
+app.UseAppSwagger();
+
+app.UseAppAuth();
+//app.UseAuthorization();
+
+app.MapControllers();
+app.UseAppDbContext();
 
 app.Run();

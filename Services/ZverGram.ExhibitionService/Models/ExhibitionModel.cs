@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ZverGram.Db.Entities;
 
 namespace ZverGram.ExhibitionService.Models
 {
@@ -9,11 +10,11 @@ namespace ZverGram.ExhibitionService.Models
         public string Description { get; set; }
     }
 
-    //public class ExhibitionRequestProfile : Profile
-    //{
-    //    public ExhibitionRequestProfile()
-    //    {
-    //        CreateMap<ExhibitionResponse, ExhibitionModel> ();
-    //    }
-    //}
+    public class ExhibitionRequestProfile : Profile
+    {
+        public ExhibitionRequestProfile()
+        {
+            CreateMap<Exhibition, ExhibitionModel>();
+        }
+    }
 }
