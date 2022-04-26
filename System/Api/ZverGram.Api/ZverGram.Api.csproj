@@ -43,7 +43,10 @@
 	  <ProjectReference Include="..\..\..\Services\ZverGram.ExhibitionService\ZverGram.ExhibitionService.csproj" />
 	  <ProjectReference Include="..\..\..\Services\ZverGram.Settings\ZverGram.Settings.csproj" />
 	  <ProjectReference Include="..\..\..\Shared\ZverGram.Common\ZverGram.Common.csproj" />
-	  <ProjectReference Include="..\..\Identity\ZverGram.Identity\ZverGram.Identity.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,136 @@
+﻿@page "/exhibitions"
+
+@using ZverGram.Web.Components
+@layout MainLayout
+
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject IExhibitionService ExhibitionService
+@inject NavigationManager navigationManager
+
+<MudText Typo="Typo.h4" Class="ma-8">Exhibitions</MudText>
+
+
+<MudTable Items="@ExhibitionsList" Class="ma-8" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<ExhibitionListModel,bool>(FilterFuncSimple)">
+    <ColGroup>
+        <col style="width:50px;" />
+        <col />
+        <col />
+        <col />
+        <col style="width:100px;" />
+    </ColGroup>
+    <ToolBarContent>
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => AddExhibition())">Add</MudButton>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>Id</MudTh>
+        <MudTh>Name</MudTh>
+        <MudTh>Description</MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Description">@context.Description</MudTd>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => EditExhibition(context.Id))" />
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteExhibition(context.Id))" />
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+@code{
+    private bool dense = false;
+    private bool hover = true;
+    private bool striped = true;
+    private bool bordered = false;
+
+    private string searchString = "";
+
+    private IEnumerable<ExhibitionListModel> ExhibitionsList = new List<ExhibitionListModel>();
+
+    private async Task ReloadData()
+    {
+        ExhibitionsList = await ExhibitionService.GetExhibitions(0, 10000);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await ReloadData();
+        }
+        catch(Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+    }
+
+    private bool FilterFuncSimple(ExhibitionListModel ExhibitionListItem) => FilterFunc(ExhibitionListItem, searchString);
+
+    private bool FilterFunc(ExhibitionListModel ExhibitionListItem, string searchString)
+    {
+        return 
+            string.IsNullOrWhiteSpace(searchString)
+            ||
+            ExhibitionListItem.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+            ||
+            ExhibitionListItem.Description.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+        ;
+    }
+
+    private async Task AddExhibition()
+    {
+        var parameters = new DialogParameters {};
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+        var dialog = DialogService.Show<ExhibitionDialog>("Add exhibition", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await ExhibitionService.AddExhibition(((ExhibitionDialog)dialog.Dialog).model);
+            await ReloadData();
+        }
+    }
+
+    private async Task EditExhibition(int exhibitionId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("BookId", exhibitionId);
+
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+        var dialog = DialogService.Show<ExhibitionDialog>("Edit exhibition", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await ExhibitionService.EditExhibition(exhibitionId, ((ExhibitionDialog)dialog.Dialog).model);
+            await ReloadData();
+        }
+    }
+
+    private async Task DeleteExhibition(int exhibitionId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", "Do you really want to delete this exhibition? This process cannot be undone.");
+        parameters.Add("ButtonText", "Delete");
+        parameters.Add("Color", Color.Error);
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+        var dialog = DialogService.Show<ConfirmDialog>("Delete exhibition", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await ExhibitionService.DeleteExhibition(exhibitionId);
+            await ReloadData();
+        }
+    }
+}

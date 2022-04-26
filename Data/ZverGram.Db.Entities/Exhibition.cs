@@ -10,8 +10,8 @@ namespace ZverGram.Db.Entities
     {
         public string Name { get; set; }
         public string Description { get; set; }
-
-        public virtual ICollection<Category> Categories { get; set; }
+        public int? CategoryId { get; set; }
+        public virtual Category? Category { get; set; } 
 
         public virtual ICollection<Comment> Comments { get; set; }
     }

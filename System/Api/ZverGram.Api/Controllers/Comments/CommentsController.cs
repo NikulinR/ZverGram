@@ -45,7 +45,7 @@ namespace ZverGram.Api.Controllers.Comments
 
         
         [HttpPost("")]
-        [Authorize(AppScopes.CommentsWrite)]
+        [Authorize(AppScopes.AuthorisedUser)]
         public async Task<CommentResponse> AddComment([FromBody] AddCommentRequest request)
         {
             var model = mapper.Map<AddCommentModel>(request);
@@ -57,7 +57,7 @@ namespace ZverGram.Api.Controllers.Comments
 
         
         [HttpPut("{id}")]
-        [Authorize(AppScopes.CommentsWrite)]
+        [Authorize(AppScopes.AuthorisedUser)]
         public async Task<IActionResult> UpdateComment([FromRoute] int id, [FromBody] UpdateCommentRequest request)
         {
             var model = mapper.Map<UpdateCommentModel>(request);
@@ -68,7 +68,7 @@ namespace ZverGram.Api.Controllers.Comments
 
         
         [HttpDelete("{id}")]
-        [Authorize(AppScopes.CommentsWrite)]
+        [Authorize(AppScopes.Moderator)]
         public async Task<IActionResult> DeleteComment([FromRoute] int id)
         {
             await commentService.DeleteComment(id);

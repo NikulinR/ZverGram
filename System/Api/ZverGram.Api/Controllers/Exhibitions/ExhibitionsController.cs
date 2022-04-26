@@ -44,7 +44,7 @@ namespace ZverGram.Api.Controllers.Exhibitions
         }
 
         [HttpPost("")]
-        [Authorize(AppScopes.ExhibitionsWrite)]
+        [Authorize(AppScopes.ContentMaker)]
         public async Task<ExhibitionResponse> AddExhibition([FromBody] AddExhibitionRequest request)
         {
             var model = mapper.Map<AddExhibitionModel>(request);
@@ -56,7 +56,7 @@ namespace ZverGram.Api.Controllers.Exhibitions
 
         
         [HttpPut("{id}")]
-        [Authorize(AppScopes.ExhibitionsWrite)]
+        [Authorize(AppScopes.ContentMaker)]
         public async Task<IActionResult> UpdateExhibition([FromRoute] int id, [FromBody] UpdateExhibitionRequest request)
         {
             var model = mapper.Map<UpdateExhibitionModel>(request);
@@ -67,7 +67,7 @@ namespace ZverGram.Api.Controllers.Exhibitions
 
         
         [HttpDelete("{id}")]
-        [Authorize(AppScopes.ExhibitionsWrite)]
+        [Authorize(AppScopes.Moderator)]
         public async Task<IActionResult> DeleteExhibition([FromRoute] int id)
         {
             await exhibitionService.DeleteExhibition(id);

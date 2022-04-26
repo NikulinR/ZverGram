@@ -45,7 +45,7 @@ namespace ZverGram.Api.Controllers.Categories
 
         
         [HttpPost("")]
-        [Authorize(AppScopes.CategoriesWrite)]
+        [Authorize(AppScopes.ContentMaker)]
         public async Task<CategoryResponse> AddCategories([FromBody] AddCategoryRequest request)
         {
             var model = mapper.Map<AddCategoryModel>(request);
@@ -57,7 +57,7 @@ namespace ZverGram.Api.Controllers.Categories
 
         
         [HttpPut("{id}")]
-        [Authorize(AppScopes.CategoriesWrite)]
+        [Authorize(AppScopes.ContentMaker)]
         public async Task<IActionResult> UpdateCategories([FromRoute] int id, [FromBody] UpdateCategoryRequest request)
         {
             var model = mapper.Map<UpdateCategoryModel>(request);
@@ -68,7 +68,7 @@ namespace ZverGram.Api.Controllers.Categories
 
         
         [HttpDelete("{id}")]
-        [Authorize(AppScopes.CategoriesWrite)]
+        [Authorize(AppScopes.Moderator)]
         public async Task<IActionResult> DeleteCategories([FromRoute] int id)
         {
             await categoryService.DeleteCategory(id);

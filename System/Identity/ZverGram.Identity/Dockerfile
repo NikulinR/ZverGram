@@ -7,6 +7,10 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["System/Identity/ZverGram.Identity/ZverGram.Identity.csproj", "System/Identity/ZverGram.Identity/"]
+COPY ["Data/ZverGram.Db.Entities/ZverGram.Db.Entities.csproj", "Data/ZverGram.Db.Entities/"]
+COPY ["Services/ZverGram.Settings/ZverGram.Settings.csproj", "Services/ZverGram.Settings/"]
+COPY ["Shared/ZverGram.Common/ZverGram.Common.csproj", "Shared/ZverGram.Common/"]
+COPY ["Data/ZverGram.Db.Context/ZverGram.Db.Context.csproj", "Data/ZverGram.Db.Context/"]
 RUN dotnet restore "System/Identity/ZverGram.Identity/ZverGram.Identity.csproj"
 COPY . .
 WORKDIR "/src/System/Identity/ZverGram.Identity"

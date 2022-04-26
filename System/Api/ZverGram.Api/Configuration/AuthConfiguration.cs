@@ -1,4 +1,4 @@
-﻿namespace ZverGram.API.Configuration;
+﻿namespace ZverGram.Api.Configuration;
 
 using ZverGram.Common.Security;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,7 +37,7 @@ public static class AuthConfiguration
             .AddJwtBearer(IdentityServerAuthenticationDefaults.AuthenticationScheme, options =>
             {
                 options.RequireHttpsMetadata = settings.IdentityServer.RequireHttps;
-                options.Authority = "http://localhost:5167";//  settings.IdentityServer.Url; //
+                options.Authority =   settings.IdentityServer.Url; //"http://localhost:5167";//
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = false,
@@ -53,14 +53,9 @@ public static class AuthConfiguration
 
         services.AddAuthorization(options =>
         {
-            options.AddPolicy(AppScopes.ExhibitionsRead, policy => policy.RequireClaim("scope", AppScopes.ExhibitionsRead));
-            options.AddPolicy(AppScopes.ExhibitionsWrite, policy => policy.RequireClaim("scope", AppScopes.ExhibitionsWrite));
-
-            options.AddPolicy(AppScopes.CommentsRead, policy => policy.RequireClaim("scope", AppScopes.CommentsRead));
-            options.AddPolicy(AppScopes.CommentsWrite, policy => policy.RequireClaim("scope", AppScopes.CommentsWrite));
-
-            options.AddPolicy(AppScopes.CategoriesRead, policy => policy.RequireClaim("scope", AppScopes.CategoriesRead));
-            options.AddPolicy(AppScopes.CategoriesWrite, policy => policy.RequireClaim("scope", AppScopes.CategoriesWrite));
+            options.AddPolicy(AppScopes.AuthorisedUser, policy => policy.RequireClaim("scope", AppScopes.AuthorisedUser));
+            options.AddPolicy(AppScopes.ContentMaker, policy => policy.RequireClaim("scope", AppScopes.ContentMaker));
+            options.AddPolicy(AppScopes.Moderator, policy => policy.RequireClaim("scope", AppScopes.Moderator));
         });
 
         return services;

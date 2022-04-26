@@ -2,8 +2,6 @@
 using Serilog;
 using ZverGram.Api;
 using ZverGram.Api.Configuration;
-using ZverGram.API.Configuration;
-using ZverGram.Identity.Configuration;
 using ZverGram.Settings;
 
 var builder = WebApplication.CreateBuilder(args);

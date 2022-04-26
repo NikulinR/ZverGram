@@ -31,7 +31,7 @@ namespace ZverGram.Db.Context
             modelBuilder.Entity<Exhibition>().Property(x => x.Name).IsRequired();
             modelBuilder.Entity<Exhibition>().Property(x => x.Description).HasMaxLength(1000);
             modelBuilder.Entity<Exhibition>().HasIndex(x => x.Name).IsUnique();
-            modelBuilder.Entity<Exhibition>().HasMany(x => x.Categories).WithMany(x => x.Exhibitions).UsingEntity(t => t.ToTable("exhibitions_categories"));
+            modelBuilder.Entity<Exhibition>().HasOne(x => x.Category).WithMany(x => x.Exhibitions).HasForeignKey(x => x.CategoryId).OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Category>().ToTable("categories");
 

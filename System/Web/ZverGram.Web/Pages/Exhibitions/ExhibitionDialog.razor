@@ -1,0 +1,73 @@
+﻿@inherits MudComponentBase
+
+@inject IExhibitionService exhibitionService
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Name" @bind-Value="model.Name"
+                                  For="@(() => model.Name)"
+                                  Required="true"
+                                  RequiredError="Name is required!"
+                                  >
+                    </MudTextField>
+                </MudItem>
+                
+                <MudItem xs="12" >
+                    <MudTextField Label="Description"
+                                  Lines="5"
+                                  For="@(() => model.Description)"
+                                  @bind-Value="model.Description"></MudTextField>
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+
+    MudForm form = default!;
+
+    ExhibitionModelValidator modelValidator = new ExhibitionModelValidator();
+
+    bool isNew = false;
+
+    [Parameter]
+    public int? ExhibitionId { get; set; } = default;
+    [Parameter]
+    public ExhibitionModel model { get; set; } = new() { };
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        isNew = ExhibitionId == null;
+        if (!isNew)
+        {
+            var exhibition = await exhibitionService.GetExhibition(ExhibitionId ?? 0);
+
+            model.Name = exhibition.Name;
+            model.Description = exhibition.Description;
+        }
+        
+        form.ResetValidation();
+    }
+
+    async Task Submit()
+    {
+        await form.Validate();
+        if (form.IsValid)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}

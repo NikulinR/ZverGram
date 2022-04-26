@@ -12,14 +12,15 @@ namespace ZverGram.Db.Context
 
             var c1 = new Entities.Category { Name = "Dogs" };
             var c2 = new Entities.Category { Name = "Cats" };
+            var c3 = new Entities.Category { Name = "Mixed" };
 
             context.Categories.Add(c1);
             context.Categories.Add(c2);
 
 
-            var e1 = new Entities.Exhibition { Name = "Fancy dogs", Description = "Good Boys", Categories = new List<Entities.Category>() { c1 } };
-            var e2 = new Entities.Exhibition { Name = "Pretty cats", Description = "They are so good", Categories = new List<Entities.Category>() { c2 } };
-            var e3 = new Entities.Exhibition { Name = "Everybody", Description = "Cats and dogs", Categories = new List<Entities.Category>() { c1, c2 } };
+            var e1 = new Entities.Exhibition { Name = "Fancy dogs", Description = "Good Boys", Category = c1 };
+            var e2 = new Entities.Exhibition { Name = "Pretty cats", Description = "They are so good", Category = c2 };
+            var e3 = new Entities.Exhibition { Name = "Everybody", Description = "Cats and dogs", Category = c3 };
 
             context.Exhibitions.Add(e1);
             context.Exhibitions.Add(e2);

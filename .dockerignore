@@ -7,6 +7,9 @@
 **/.settings
 **/.toolstarget
 **/.vs
+**/appsettings.development.json
+**/dev.env
+**/logs
 **/.vscode
 **/*.*proj.user
 **/*.dbmdl

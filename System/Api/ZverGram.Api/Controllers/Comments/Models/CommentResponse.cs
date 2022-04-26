@@ -19,7 +19,9 @@ namespace ZverGram.Api.Controllers.Comments.Models
     {
         public CommentResponseProfile()
         {
-            CreateMap<CommentModel, CommentResponse>();
+            CreateMap<CommentModel, CommentResponse>()
+                .ForMember(dest => dest.Exhibition, opt => opt.MapFrom(src => src.Exhibition))
+                .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Author)); ;
         }
     }
 }

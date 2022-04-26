@@ -17,3 +17,5 @@ services:
     build:
         context: .
         dockerfile: System/Identity/ZverGram.Identity/Dockerfile
+        
+

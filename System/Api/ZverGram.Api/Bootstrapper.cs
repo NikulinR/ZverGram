@@ -5,7 +5,7 @@ using ZverGram.Settings;
 
 namespace ZverGram.Api
 {
-    public static class Botstrapper
+    public static class Bootstrapper
     {
         public static void AddAppServices(this IServiceCollection services)
         {

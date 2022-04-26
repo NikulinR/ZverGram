@@ -22,21 +22,6 @@ namespace ZverGram.Db.Context.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("CategoryExhibition", b =>
-                {
-                    b.Property<int>("CategoriesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ExhibitionsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoriesId", "ExhibitionsId");
-
-                    b.HasIndex("ExhibitionsId");
-
-                    b.ToTable("exhibitions_categories", (string)null);
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
                 {
                     b.Property<Guid>("Id")
@@ -239,6 +224,9 @@ namespace ZverGram.Db.Context.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(1000)
@@ -252,6 +240,8 @@ namespace ZverGram.Db.Context.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -331,21 +321,6 @@ namespace ZverGram.Db.Context.Migrations
                     b.ToTable("users", (string)null);
                 });
 
-            modelBuilder.Entity("CategoryExhibition", b =>
-                {
-                    b.HasOne("ZverGram.Db.Entities.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ZverGram.Db.Entities.Exhibition", null)
-                        .WithMany()
-                        .HasForeignKey("ExhibitionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
@@ -414,6 +389,21 @@ namespace ZverGram.Db.Context.Migrations
                     b.Navigation("Author");
 
                     b.Navigation("Exhibition");
+                });
+
+            modelBuilder.Entity("ZverGram.Db.Entities.Exhibition", b =>
+                {
+                    b.HasOne("ZverGram.Db.Entities.Category", "Category")
+                        .WithMany("Exhibitions")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("ZverGram.Db.Entities.Category", b =>
+                {
+                    b.Navigation("Exhibitions");
                 });
 
             modelBuilder.Entity("ZverGram.Db.Entities.Exhibition", b =>

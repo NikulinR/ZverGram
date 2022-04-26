@@ -21,12 +21,9 @@ public static class AppClients
                 AccessTokenLifetime = 3600, // 1 hour
 
                 AllowedScopes = {
-                    AppScopes.ExhibitionsRead,
-                    AppScopes.ExhibitionsWrite,
-                    AppScopes.CommentsRead,
-                    AppScopes.CommentsWrite,
-                    AppScopes.CategoriesRead,
-                    AppScopes.CategoriesWrite
+                    AppScopes.AuthorisedUser,
+                    AppScopes.Moderator,
+                    AppScopes.ContentMaker
                 }
             }
             ,
@@ -51,12 +48,9 @@ public static class AppClients
                 SlidingRefreshTokenLifetime = 1296000, // 15 days
 
                 AllowedScopes = {
-                    AppScopes.ExhibitionsRead,
-                    AppScopes.ExhibitionsWrite,
-                    AppScopes.CommentsRead,
-                    AppScopes.CommentsWrite,
-                    AppScopes.CategoriesRead,
-                    AppScopes.CategoriesWrite
+                    AppScopes.AuthorisedUser,
+                    AppScopes.Moderator,
+                    AppScopes.ContentMaker
                 }
             }
         };

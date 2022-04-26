@@ -57,30 +57,24 @@ public static class SwaggerConfiguration
                 {
                     Password = new OpenApiOAuthFlow
                     {
-                        TokenUrl = new Uri($"http://localhost:5167/connect/token"),                        
-                        //TokenUrl = new Uri($"{settings.IdentityServer.Url}/connect/token"),
+                        //TokenUrl = new Uri($"http://localhost:5167/connect/token"),                        
+                        TokenUrl = new Uri($"{settings.IdentityServer.Url}/connect/token"),
                         Scopes = new Dictionary<string, string>
                         {
-                            {AppScopes.ExhibitionsRead, "ExhibitionsRead"},
-                            {AppScopes.ExhibitionsWrite, "ExhibitionsWrite"},
-                            {AppScopes.CommentsRead, "CommentsRead"},
-                            {AppScopes.CommentsWrite, "CommentsWrite"},
-                            {AppScopes.CategoriesRead, "CategoriesRead"},
-                            {AppScopes.CategoriesWrite, "CategoriesWrite"}
+                            {AppScopes.AuthorisedUser, "AuthorisedUser"},
+                            {AppScopes.ContentMaker, "ContentMaker"},
+                            {AppScopes.Moderator, "Moderator"}
                         }
                     },
                     ClientCredentials = new OpenApiOAuthFlow
                     {
-                        TokenUrl = new Uri($"http://localhost:5167/connect/token"),
-                        //TokenUrl = new Uri($"{settings.IdentityServer.Url}/connect/token"),
+                        //TokenUrl = new Uri($"http://localhost:5167/connect/token"),
+                        TokenUrl = new Uri($"{settings.IdentityServer.Url}/connect/token"),
                         Scopes = new Dictionary<string, string>
                         {
-                            {AppScopes.ExhibitionsRead, "ExhibitionsRead"},
-                            {AppScopes.ExhibitionsWrite, "ExhibitionsWrite"},
-                            {AppScopes.CommentsRead, "CommentsRead"},
-                            {AppScopes.CommentsWrite, "CommentsWrite"},
-                            {AppScopes.CategoriesRead, "CategoriesRead"},
-                            {AppScopes.CategoriesWrite, "CategoriesWrite"}
+                            {AppScopes.AuthorisedUser, "AuthorisedUser"},
+                            {AppScopes.ContentMaker, "ContentMaker"},
+                            {AppScopes.Moderator, "Moderator"}
                         }
                     }
                 }

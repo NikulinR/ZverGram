@@ -8,6 +8,7 @@ namespace ZverGram.Api.Controllers.Exhibitions.Models
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public int CategoryId { get; set; }
     }
 
     public class UpdateExhibitionValidator : AbstractValidator<UpdateExhibitionRequest>

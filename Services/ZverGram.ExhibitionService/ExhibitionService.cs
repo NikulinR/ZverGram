@@ -32,7 +32,7 @@ namespace ZverGram.ExhibitionService
         public async Task<IEnumerable<ExhibitionModel>> GetExhibitions(int offset = 0, int limit = 100)
         {
             using var context = await contextFactory.CreateDbContextAsync();
-            var exhibitions = context.Exhibitions.AsQueryable();
+            var exhibitions = context.Exhibitions.Include(x => x.Category).AsQueryable();
             exhibitions = exhibitions.Skip(Math.Max(offset, 0)).Take(Math.Min(limit, 1000));
 
             var data = (await exhibitions.ToListAsync()).Select(exhibition => mapper.Map<ExhibitionModel>(exhibition));
@@ -43,7 +43,7 @@ namespace ZverGram.ExhibitionService
         public async Task<ExhibitionModel> GetExhibition(int id)
         {
             using var context = await contextFactory.CreateDbContextAsync();
-            var exhibition = await context.Exhibitions.FirstOrDefaultAsync(x => x.Id.Equals(id));
+            var exhibition = await context.Exhibitions.Include(x => x.Category).AsQueryable().FirstOrDefaultAsync(x => x.Id.Equals(id));
             var data = mapper.Map<ExhibitionModel>(exhibition);
 
             return data;

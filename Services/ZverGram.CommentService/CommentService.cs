@@ -50,7 +50,7 @@ namespace ZverGram.CommentService
         {
             addValidator.Check(model);
             using var context = await contextFactory.CreateDbContextAsync();
-
+            
             var Comment = mapper.Map<Comment>(model);
             await context.Comments.AddAsync(Comment);
             context.SaveChanges();
