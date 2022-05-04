@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\ZverGram.Db.Context\ZverGram.Db.Context.csproj" />
     <ProjectReference Include="..\..\Shared\ZverGram.Common\ZverGram.Common.csproj" />
+    <ProjectReference Include="..\ZverGram.CommentService\ZverGram.CommentService.csproj" />
   </ItemGroup>
 
 </Project>

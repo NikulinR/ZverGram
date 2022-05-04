@@ -23,6 +23,9 @@ namespace ZverGram.CommentService
             this.updateValidator = updateValidator;
         }
 
+
+        
+
         public async Task<IEnumerable<CommentModel>> GetComments(int offset = 0, int limit = 100)
         {
             using var context = await contextFactory.CreateDbContextAsync();
@@ -79,5 +82,6 @@ namespace ZverGram.CommentService
             context.Remove(Comment);
             context.SaveChanges();
         }
+
     }
 }

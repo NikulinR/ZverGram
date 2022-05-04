@@ -6,6 +6,7 @@ using Microsoft.Identity.Web.Resource;
 using ZverGram.Api.Controllers.Exhibitions.Models;
 using ZverGram.ExhibitionService;
 using ZverGram.ExhibitionService.Models;
+using ZverGram.Api.Controllers.Comments.Models;
 
 namespace ZverGram.Api.Controllers.Exhibitions
 {
@@ -39,6 +40,15 @@ namespace ZverGram.Api.Controllers.Exhibitions
         {
             var exhibition = await exhibitionService.GetExhibition(id);
             var response = mapper.Map<ExhibitionResponse>(exhibition);
+
+            return response;
+        }
+
+        [HttpGet("{id}/comments")]
+        public async Task<IEnumerable<CommentResponse>> GetComments([FromRoute] int id)
+        {
+            var comments = await exhibitionService.GetComments(id);
+            var response = mapper.Map<IEnumerable<CommentResponse>>(comments);
 
             return response;
         }

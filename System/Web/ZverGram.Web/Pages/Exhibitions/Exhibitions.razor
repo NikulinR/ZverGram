@@ -1,4 +1,4 @@
-﻿@page "/exhibitions"
+﻿@page "/"
 
 @using ZverGram.Web.Components
 @layout MainLayout
@@ -11,13 +11,9 @@
 <MudText Typo="Typo.h4" Class="ma-8">Exhibitions</MudText>
 
 
+
 <MudTable Items="@ExhibitionsList" Class="ma-8" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<ExhibitionListModel,bool>(FilterFuncSimple)">
     <ColGroup>
-        <col style="width:50px;" />
-        <col />
-        <col />
-        <col />
-        <col style="width:100px;" />
     </ColGroup>
     <ToolBarContent>
         <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => AddExhibition())">Add</MudButton>
@@ -25,19 +21,30 @@
         <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
     </ToolBarContent>
     <HeaderContent>
-        <MudTh>Id</MudTh>
-        <MudTh>Name</MudTh>
-        <MudTh>Description</MudTh>
-        <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Id">@context.Id</MudTd>
-        <MudTd DataLabel="Name">@context.Name</MudTd>
-        <MudTd DataLabel="Description">@context.Description</MudTd>
-        <MudTd>
-            <MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => EditExhibition(context.Id))" />
-            <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteExhibition(context.Id))" />
-        </MudTd>
+        <MudPaper Class="pa-4 ma-2" Elevation="3">
+            <MudCard>
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.caption" Align="Align.Right">@context.Category</MudText>
+                        <MudText Typo="Typo.h6">@context.Name</MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>                    
+                        <MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => EditExhibition(context.Id))" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteExhibition(context.Id))" />
+                    </CardHeaderActions>
+                </MudCardHeader>
+                <MudDivider />
+                <MudCardContent>
+                    <MudText>@context.Description</MudText>
+                </MudCardContent>            
+                <MudDivider />
+                <MudCardActions>                
+                    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Comment" OnClick="@((e) => ViewExhibition(context.Id))">Comment</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudPaper>
     </RowTemplate>
     <PagerContent>
         <MudTablePager />
@@ -94,7 +101,14 @@
 
         if (!result.Cancelled)
         {
-            await ExhibitionService.AddExhibition(((ExhibitionDialog)dialog.Dialog).model);
+            try
+            {                
+                await ExhibitionService.AddExhibition(((ExhibitionDialog)dialog.Dialog).model);
+            }
+            catch(Exception ex)
+            {
+                await DialogService.ShowMessageBox("Error", ex.Message);
+            }
             await ReloadData();
         }
     }
@@ -102,7 +116,7 @@
     private async Task EditExhibition(int exhibitionId)
     {
         var parameters = new DialogParameters();
-        parameters.Add("BookId", exhibitionId);
+        parameters.Add("ExhibitionId", exhibitionId);
 
         var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
         var dialog = DialogService.Show<ExhibitionDialog>("Edit exhibition", parameters, options);
@@ -110,7 +124,15 @@
 
         if (!result.Cancelled)
         {
-            await ExhibitionService.EditExhibition(exhibitionId, ((ExhibitionDialog)dialog.Dialog).model);
+            try
+            {
+                await ExhibitionService.EditExhibition(exhibitionId, ((ExhibitionDialog)dialog.Dialog).model);
+            }
+            catch(Exception ex)
+            {
+                await DialogService.ShowMessageBox("Error", ex.Message);
+            }
+
             await ReloadData();
         }
     }
@@ -129,8 +151,20 @@
 
         if (!result.Cancelled)
         {
-            await ExhibitionService.DeleteExhibition(exhibitionId);
+            try
+            {                
+                await ExhibitionService.DeleteExhibition(exhibitionId);
+            }
+            catch(Exception ex)
+            {
+                await DialogService.ShowMessageBox("Error", ex.Message);
+            }
             await ReloadData();
         }
+    }
+
+    private void ViewExhibition(int exhibitionId)
+    {
+        navigationManager.NavigateTo($"/viewcomments/{exhibitionId}");
     }
 }

@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZverGram.CommentService.Models;
 using ZverGram.Common.Exceptions;
 using ZverGram.Common.Validator;
 using ZverGram.Db.Context;
@@ -81,6 +82,19 @@ namespace ZverGram.ExhibitionService
             
             context.Remove(exhibition);
             context.SaveChanges();
+        }
+
+        public async Task<IEnumerable<CommentModel>> GetComments(int exhibitionId, int offset = 0, int limit = 100)
+        {
+            using var context = await contextFactory.CreateDbContextAsync();
+            var comments = context.Comments.Include(x => x.Author)
+                                           .Include(x => x.Exhibition).AsQueryable().Where(x => x.ExhibitionId == exhibitionId);
+
+            comments = comments.Skip(Math.Max(offset, 0)).Take(Math.Min(limit, 1000));
+
+            var data = (await comments.ToListAsync()).Select(Comment => mapper.Map<CommentModel>(Comment));
+
+            return data;
         }
     }
 }

@@ -1,0 +1,134 @@
+﻿@page "/viewcomments/{exhibitionId:int}"
+
+@using ZverGram.Web.Components
+
+@inject IExhibitionService exhibitionService
+
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+
+
+<MudPaper Class="pa-4 ma-2" Elevation="3">
+    <MudCard>
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.caption" Align="Align.Right">@exhibition.Category</MudText>
+                <MudText Typo="Typo.h6">@exhibition.Name</MudText>
+            </CardHeaderContent>            
+        </MudCardHeader>
+        <MudDivider />
+        <MudCardContent>
+            <MudText>@exhibition.Description</MudText>
+        </MudCardContent>            
+        <MudDivider />
+    </MudCard>
+
+    <MudCard>
+        <MudCardHeader>
+            <CardHeaderContent>
+                Write your comment!
+            </CardHeaderContent>            
+        </MudCardHeader>
+        <MudCardContent>
+            <MudTextField @bind-Value="commentText" Lines="3" Label="Comment" Variant="Variant.Outlined"></MudTextField>
+            <MudButton OnClick="PostComment">Post</MudButton>
+        </MudCardContent>            
+        <MudDivider />
+    </MudCard>
+    
+
+    <MudTable Items="@comments" Class="ma-8">
+    <ColGroup>
+    </ColGroup>    
+    <HeaderContent>
+    </HeaderContent>
+    <RowTemplate>
+        <MudPaper Class="pa-4 ma-2" Elevation="3">
+            <MudCard>
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.caption">@context.Author</MudText>
+                        <MudText Typo="Typo.caption">@context.Posted.ToLocalTime().ToShortDateString()</MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>                    
+                        
+                    </CardHeaderActions>
+                </MudCardHeader>
+                <MudDivider />
+                <MudCardContent>
+                    <MudText>@context.Content</MudText>
+                </MudCardContent>            
+                <MudDivider />
+                <MudCardActions>                
+                    
+                </MudCardActions>
+            </MudCard>
+        </MudPaper>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+
+</MudPaper>
+
+@code {
+
+    [Parameter]
+    public int exhibitionId { get; set; }
+
+    private ExhibitionListModel exhibition = new ExhibitionListModel();
+    private List<CommentModel> comments = new List<CommentModel>();
+
+    private string commentText;
+    private AddCommentModel comment = new AddCommentModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await ReloadData();
+        }
+        catch(Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+    }
+
+    private async Task ReloadData()
+    {
+        if (exhibitionId != null)
+        {
+            exhibition = await exhibitionService.GetExhibition(exhibitionId);
+            if (exhibition != null)
+            {
+                var data = await exhibitionService.GetComments(exhibitionId);
+                comments.AddRange(data);
+            }
+        }
+
+    }
+
+    async Task PostComment()
+    {
+        
+        comment.Content = commentText;
+        comment.Posted = DateTime.Now;
+        //todo заполнить автора
+        comment.AuthorId = Guid.Empty;
+        comment.ExhibitionId = exhibitionId;
+        comment.Rating = 0;
+
+        try
+        {
+           await exhibitionService.AddComment(comment);           
+           await ReloadData(); 
+        }
+        catch(Exception ex)
+        {
+           await DialogService.ShowMessageBox("Error", ex.Message);
+        }
+               
+    }
+}

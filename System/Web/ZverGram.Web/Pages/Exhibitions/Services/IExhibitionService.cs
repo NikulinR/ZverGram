@@ -7,5 +7,8 @@
         Task AddExhibition(ExhibitionModel model);
         Task EditExhibition(int exhibitionId, ExhibitionModel model);
         Task DeleteExhibition(int exhibitionId);
+        Task<IEnumerable<CategoryModel>> GetCategoriesList();
+        Task<IEnumerable<CommentModel>> GetComments(int exhibitionId);
+        Task AddComment(AddCommentModel model);
     }
 }

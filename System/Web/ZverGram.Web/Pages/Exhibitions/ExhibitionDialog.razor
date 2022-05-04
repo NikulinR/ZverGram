@@ -21,6 +21,17 @@
                                   For="@(() => model.Description)"
                                   @bind-Value="model.Description"></MudTextField>
                 </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudSelect @ref="selectCategory" T="int" Label="Category" @bind-Value="model.CategoryId" For="@(() => model.CategoryId)">
+                        <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
+                        @foreach (var cat in _categories)
+                        {
+                            <MudSelectItem T="int" Value="@cat.Id">@cat.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
             </MudGrid>
         </MudForm>
     </DialogContent>
@@ -35,6 +46,7 @@
     MudDialogInstance MudDialog { get; set; } = default!;
 
     MudForm form = default!;
+    MudSelect<int> selectCategory = default!;
 
     ExhibitionModelValidator modelValidator = new ExhibitionModelValidator();
 
@@ -42,21 +54,29 @@
 
     [Parameter]
     public int? ExhibitionId { get; set; } = default;
-    [Parameter]
-    public ExhibitionModel model { get; set; } = new() { };
 
+    [Parameter]
+    public ExhibitionModel model { get; set; } = new() { CategoryId = 0 };
+
+    private List<CategoryModel> _categories { get; set; } = new List<CategoryModel>();
 
     protected override async Task OnInitializedAsync()
     {
+        var data = await exhibitionService.GetCategoriesList();
+        _categories.AddRange(data);
+
         isNew = ExhibitionId == null;
         if (!isNew)
         {
             var exhibition = await exhibitionService.GetExhibition(ExhibitionId ?? 0);
 
+            model.Id = exhibition.Id;
             model.Name = exhibition.Name;
+            model.CategoryId = exhibition.CategoryId;
             model.Description = exhibition.Description;
         }
-        
+
+        await selectCategory.SelectOption(model.CategoryId);
         form.ResetValidation();
     }
 
