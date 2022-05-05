@@ -16,5 +16,8 @@ namespace ZverGram.ExhibitionService
         Task UpdateExhibition(int id, UpdateExhibitionModel model);
         Task DeleteExhibition(int id);
         Task<IEnumerable<CommentModel>> GetComments(int exhibitionId, int offset = 0, int limit = 100);
+        Task<PictureModel> AddPicture(AddPictureModel model);
+        Task<IEnumerable<PictureModel>> GetPictures(int exhibitionId, int offset = 0, int limit = 100);
+        Task<PictureModel> GetPrimaryPicture(int exhibitionId);
     }
 }

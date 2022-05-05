@@ -1,11 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ZverGram.CommentService.Models;
 using ZverGram.Common.Exceptions;
 using ZverGram.Common.Validator;
@@ -19,6 +13,7 @@ namespace ZverGram.ExhibitionService
     {
         private readonly IDbContextFactory<MainDbContext> contextFactory;
         private readonly IMapper mapper;
+        private readonly IModelValidator<AddPictureModel> addPicValidator;
         private readonly IModelValidator<AddExhibitionModel> addValidator;
         private readonly IModelValidator<UpdateExhibitionModel> updateValidator;
 
@@ -95,6 +90,39 @@ namespace ZverGram.ExhibitionService
             var data = (await comments.ToListAsync()).Select(Comment => mapper.Map<CommentModel>(Comment));
 
             return data;
+        }
+
+
+        public async Task<PictureModel> AddPicture(AddPictureModel model)
+        {
+            addPicValidator.Check(model);
+            using var context = await contextFactory.CreateDbContextAsync();
+
+            var picture = mapper.Map<Picture>(model);
+            await context.Pictures.AddAsync(picture);
+            context.SaveChanges();
+
+            return mapper.Map<PictureModel>(picture);
+        }
+
+        public async Task<IEnumerable<PictureModel>> GetPictures(int exhibitionId, int offset = 0, int limit = 100)
+        {
+            using var context = await contextFactory.CreateDbContextAsync();
+            var pictures = context.Pictures.Include(x => x.Exhibition).AsQueryable().Where(x => x.ExhibitionId == exhibitionId);
+
+            pictures = pictures.Skip(Math.Max(offset, 0)).Take(Math.Min(limit, 1000));
+
+            var data = (await pictures.ToListAsync()).Select(Picture => mapper.Map<PictureModel>(Picture));
+
+            return data;
+        }
+
+        public async Task<PictureModel> GetPrimaryPicture(int exhibitionId)
+        {
+            using var context = await contextFactory.CreateDbContextAsync();
+            var picture = context.Pictures.Include(x => x.Exhibition).AsQueryable().FirstOrDefault(x => x.ExhibitionId == exhibitionId & x.isPrimary == 'Y');
+
+            return mapper.Map<PictureModel>(picture);
         }
     }
 }

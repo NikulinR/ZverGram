@@ -10,6 +10,7 @@ namespace ZverGram.Db.Context
         public DbSet<Exhibition> Exhibitions { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Picture> Pictures { get; set; }
         public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
         {
             
@@ -38,6 +39,11 @@ namespace ZverGram.Db.Context
             modelBuilder.Entity<Comment>().ToTable("comments");
             modelBuilder.Entity<Comment>().HasOne(x => x.Exhibition).WithMany(x => x.Comments).HasForeignKey(x => x.ExhibitionId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Comment>().HasOne(x => x.Author).WithMany(x => x.Comments).HasForeignKey(x => x.AuthorId).OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Picture>().ToTable("pictures");
+            modelBuilder.Entity<Picture>().Property(x => x.Description).HasMaxLength(1000);
+            modelBuilder.Entity<Picture>().Property(x => x.Filename).HasMaxLength(100);
+            modelBuilder.Entity<Picture>().HasOne(x => x.Exhibition).WithMany(x => x.Pictures).HasForeignKey(x => x.ExhibitionId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

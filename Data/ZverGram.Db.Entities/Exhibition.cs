@@ -9,10 +9,11 @@ namespace ZverGram.Db.Entities
     public class Exhibition: BaseEntity
     {
         public string Name { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public int? CategoryId { get; set; }
         public virtual Category? Category { get; set; } 
 
         public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Picture> Pictures { get; set; }
     }
 }

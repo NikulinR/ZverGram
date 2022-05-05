@@ -104,6 +104,7 @@
             if (exhibition != null)
             {
                 var data = await exhibitionService.GetComments(exhibitionId);
+                comments.Clear(); 
                 comments.AddRange(data);
             }
         }
@@ -112,11 +113,11 @@
 
     async Task PostComment()
     {
-        
+       
         comment.Content = commentText;
         comment.Posted = DateTime.Now;
         //todo заполнить автора
-        comment.AuthorId = Guid.Empty;
+        comment.AuthorId = Guid.Parse("217fecee-e615-4fcb-5ed1-08da1d949ca6");
         comment.ExhibitionId = exhibitionId;
         comment.Rating = 0;
 

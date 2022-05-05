@@ -53,6 +53,26 @@ namespace ZverGram.Api.Controllers.Exhibitions
             return response;
         }
 
+        [HttpGet("{id}/pictures")]
+        public async Task<IEnumerable<PictureResponse>> GetPictures([FromRoute] int id)
+        {
+            var pictures = await exhibitionService.GetPictures(id);
+            var response = mapper.Map<IEnumerable<PictureResponse>>(pictures);
+
+            return response;
+        }
+
+        [HttpPost("{id}/add_picture")]
+        [Authorize(AppScopes.ContentMaker)]
+        public async Task<PictureResponse> AddPicture([FromBody] AddPictureRequest request)
+        {
+            var model = mapper.Map<AddPictureModel>(request);
+            var picture = await exhibitionService.AddPicture(model);
+            var response = mapper.Map<PictureResponse>(picture);
+
+            return response;
+        }
+
         [HttpPost("")]
         [Authorize(AppScopes.ContentMaker)]
         public async Task<ExhibitionResponse> AddExhibition([FromBody] AddExhibitionRequest request)
